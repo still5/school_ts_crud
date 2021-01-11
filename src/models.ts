@@ -1,9 +1,7 @@
 //TS types, interfaces, enums, etc
-type url = string | number | undefined
-type teacher = object
-type lesson = object
-type classroom = object
+import * as consts from './const'
 
+type url = string | number | undefined
 enum Subjects {
     Math,
     Biology,
@@ -15,42 +13,20 @@ enum Subjects {
 }
 
 //interfaces
-interface ITeacher {
-    readonly id: string
-    firstName: string
-    lastName: string
-    age: number
-	yearsOfxperience: number
-    workedInUniversities?: boolean
-    contacts: string
-    createdOn: Date
-	teacherExperience: {
-		readonly id: number
-        subject: Subjects
-        isActive: boolean
-	}
-    
-    getTeachers(): teacher[]
-    updateTeacher(): teacher[] | string
-    createTeacher(): teacher[] | string
-    deleteTeacher(): string
-    canTeachSubject(): teacher[]
-    getTargetMathTeachers(): teacher[]
-    getAllTeachers(): teacher[]
-}
+
 
 interface ILesson {
     readonly id: number
-    lessonUrl: lesson
-	classroomId: classroom
+    lessonUrl: object
+	classroomId: object
 	subject: Subjects
-	teacherId: teacher
+	teacherId: number
 	timeStart: Date
 	timeEnd: Date
 
-    getLessons(): lesson[]
-    updateLesson(): lesson[] | string
-    createLesson(): lesson[] | string
+    getLessons(): object[]
+    updateLesson(): object[] | string
+    createLesson(): object[] | string
     deleteLesson(): string
 }
 
@@ -59,8 +35,58 @@ interface IClassroom {
     classRoomNumber: number
     bookingUrl?: url
 
-    getClassrooms(): classroom[]
-    updateClassroom(): classroom[] | string
-    createClassroom(): classroom[] | string
+    getClassrooms(): object[]
+    updateClassroom(): object[] | string
+    createClassroom(): object[] | string
     deleteClassroom(): string
 }
+
+/*export class Teacher implements ITeacher{
+    firstName: string;
+    lastName: string;
+    age: number
+	yearsOfxperience: number
+    workedInUniversities?: boolean
+    contacts: string
+    createdOn: Date
+	//teacherExperience: {
+		//readonly id?: number
+        //subject: Subjects
+        //isActive: boolean
+    //};
+    
+    constructor (
+        firstName: string, 
+        lastName: string, 
+        birthYear: number, 
+        experienceStart: number, 
+        workedInUniv: boolean, 
+        contacts: string, 
+        ) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.age = 2021 - birthYear; //consts.currentDate - birthYear;
+            this.yearsOfxperience = 2021 -  - experienceStart;//consts.currentDate - experienceStart;
+            this.workedInUniversities = workedInUniv;
+            this.contacts = contacts;
+            this.createdOn = new Date();
+    }
+
+    getTeachers(): object[] | string | void {}
+    updateTeacher(): object | string | void {}
+    createTeacher(): object | string | void {}
+    deleteTeacher(): string | void {}
+    canTeachSubject(): object[] | string {
+        let teachersThatCanTeachSubject = 
+        return teacher[];
+        if (length(teacher[])=0) {
+            return 'No teachers found';
+        }
+    }
+    getTargetMathTeachers(): teacher[] {}
+    getAllTeachers(): teacher[] {
+        return this.teacher[];
+    }
+
+}
+*/
