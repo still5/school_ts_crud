@@ -3,22 +3,21 @@
    "host": "localhost",
    "port": 5432,
    "username": "postgres",
-   "password": "KyfKASDJ76",
+   "password": "adminpg13",
    "database": "school1",
-   "synchronize": true,
-   "logging": false,
-   "entities": [
-      "src/entity/**/*.ts"
-   ],
+   "synchronize": false,
+   "logging": "all",
+   "schema": "public",
+   "migrationsRun": false,
+   "migrationsTableName": "migrations",
+   "entities": 
+      ["dist/entity/*.js"]
+   ,
    "migrations": [
-      "src/migration/**/*.ts"
-   ],
-   "subscribers": [
-      "src/subscriber/**/*.ts"
+      "dist/migration/*.js"
    ],
    "cli": {
       "entitiesDir": "src/entity",
-      "migrationsDir": "src/migration",
-      "subscribersDir": "src/subscriber"
+      "migrationsDir": "src/migration"
    }
 }
