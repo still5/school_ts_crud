@@ -65,7 +65,7 @@ export class Subject implements ISubject {
         //createdOn: Date
     ): Subject
     {
-        /*getConnection()
+        getConnection()
             .createQueryBuilder()
             .insert()
             .into(Entity)
@@ -75,7 +75,7 @@ export class Subject implements ISubject {
                     //createdOn: createdOn
                 }
             ])
-    .execute();*/
+    .execute();
         return new Subject;
     }
 

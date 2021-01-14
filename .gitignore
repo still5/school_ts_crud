@@ -4,9 +4,7 @@ node_modules\
 .idea/
 .vscode/
 node_modules/
-School/
-typeormREADME.md
-src/migration/
 build/
-tmp/
+dist/
 temp/
+typeormREADME.md

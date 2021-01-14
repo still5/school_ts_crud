@@ -12,6 +12,8 @@ import {
     ManyToMany,
     OneToMany
   } from 'typeorm';
+import {Classroom} from './Classroom'
+import {Subject} from './Subject'
 
 export interface ITeacher {
     readonly id?: number
@@ -39,7 +41,7 @@ export interface ITeacher {
     ): Teacher
     // deleteTeacher(teacher: Teacher): void
     // canTeachSubject(subject: Subject): boolean
-    // getTargetMathTeachers(): object[]
+    getTargetMathTeachers(): Promise<void | object[]>
     getAllTeachers(): Promise<void | object[]>
 }
 
@@ -85,7 +87,7 @@ export class Teacher implements ITeacher {
         workedInUniversities: boolean
     ): Teacher
     {
-        /*getConnection()
+        getConnection()
             .createQueryBuilder()
             .insert()
             .into(Entity)
@@ -99,7 +101,7 @@ export class Teacher implements ITeacher {
                     workedInUniversities: workedInUniversities
                 }
             ])
-    .execute();*/
+    .execute();
         return new Teacher;
     };
 
@@ -124,12 +126,34 @@ export class Teacher implements ITeacher {
     }*/
 
     async getAllTeachers(): Promise<void | object[]> {
-        async() => { const users: object[] | any = await getRepository(Entity)
-        .createQueryBuilder("user")
+        async() => { const teachers: object[] | any = await getRepository(Entity)
+        .createQueryBuilder("teachers")
         .getMany();
 
-        return users;
+        return teachers;
         }
     }
 
+    async getTargetMathTeachers(): Promise<void | object[]> {
+        async() => { const teachers: object[] | any = await getRepository(Teacher)
+            .createQueryBuilder("teachers")
+            .innerJoin("teachers.lessons", "lessons")
+            .innerJoinAndSelect("lessons.classrooms", "classrooms", "classrooms.number = :crNum", { crNum: 100 })
+            .where("teachers.years_of_experience > :years", { years: 10 })
+            //.addSelect("EXTRACT (isodow from ls.time_start) = :wednesday", { wednesday: 4}) //needed SQL syntax: AND select extract (isodow from ls.time_start) from teachers=4 
+            .andWhere(qb => {
+                const subQuery: string = qb.subQuery()
+                    .select("subjects.id")
+                    .from(Subject, "subjects")
+                    .where("subjects.name = :math", {math: "Math"})
+                    .getQuery();
+                return "te.subjectId IN " + subQuery;
+            })
+            .andWhere("user.name = :name", { name: "Timber" })
+            .printSql()
+            .getMany();
+    
+            return teachers;
+            }
+    }
 }
