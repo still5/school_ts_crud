@@ -20,9 +20,9 @@ export interface ITeacher {
     firstName: string
     lastName: string
     age: number
-	yearsOfxperience: number
-    workedInUniversities: boolean
+    yearsOfxperience: number
     createdOn: string
+    workedInUniversities: boolean
 	//teacherExperience?: {
 		//readonly id?: number
         //subject: object
@@ -36,7 +36,7 @@ export interface ITeacher {
         lastName: string,
         age: number,
         yearsOfxperience: number,
-        //createdOn: Date,
+        createdOn: string,
         workedInUniversities: boolean
     ): Teacher
     // deleteTeacher(teacher: Teacher): void
@@ -83,21 +83,21 @@ export class Teacher implements ITeacher {
         lastName: string,
         age: number,
         yearsOfxperience: number,
-        //createdOn: Date,
+        createdOn: string,
         workedInUniversities: boolean
     ): Teacher
     {
         getConnection()
             .createQueryBuilder()
             .insert()
-            .into(Entity)
+            .into("teachers")
             .values([
                 { 
                     firstName: firstName,
                     lastName: lastName,
                     age: age,
                     yearsOfxperience: yearsOfxperience,
-                    //createdOn: createdOn,
+                    createdOn: createdOn,
                     workedInUniversities: workedInUniversities
                 }
             ])
@@ -105,11 +105,12 @@ export class Teacher implements ITeacher {
         return new Teacher;
     };
 
-    getTeacher(id: number): object | void {
+    public getTeacher(id: number): object | void {
         async() => {const teacher1: any = await getConnection()
-            .getRepository(Entity)
-            .createQueryBuilder("user")
-            .where("user.id = :id", { id: id })
+            .getRepository("teacher")
+            .createQueryBuilder("teacher")
+            .where("teacher.id = :id", { id: id })
+            .printSql()
             .getOne();
 
         return teacher1;

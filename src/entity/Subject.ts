@@ -25,13 +25,11 @@ enum Subjects {
 export interface ISubject {
     readonly id?: number
     name: string
-    createdOn: string
     
-    //getSubjects(): object[] | string | void
+    getSubjects(): any
     //updateSubject(): object | string | void
     createSubject(
         name: string
-        //createdOn: Date
     ): Subject
     // deleteSubject(subject: Subject): void
 }
@@ -48,21 +46,8 @@ export class Subject implements ISubject {
 //    @Column({name: 'name'})
 //    name!: string;
 
-    @CreateDateColumn({
-        name: 'created_on',
-        type: 'timestamp'
-    })
-    createdOn!: string;
-
-    // @ManyToMany(() => Subject, Teacher => subjects.teachers, {
-    //     cascade: true
-    // })
-    // @JoinTable()
-    // teachers!: Teacher[];
-
     createSubject(
         name: string
-        //createdOn: Date
     ): Subject
     {
         getConnection()
@@ -72,11 +57,21 @@ export class Subject implements ISubject {
             .values([
                 { 
                     name: name
-                    //createdOn: createdOn
                 }
             ])
     .execute();
         return new Subject;
+    }
+    getSubjects(): any
+    {
+        async () => { const sqlQuery = await getConnection()
+            .getRepository(Subject)
+            .createQueryBuilder("subjects")
+            .getMany();
+            //.printSql()
+            
+            return sqlQuery;
+        }
     }
 
 }
